@@ -1,11 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
-import Microphone from "./component/Microphone";
+import TakeSnap from "./component/TakeSnap";
+import ScreenSharing from "./component/ScreenSharing";
 
 function App() {
   return (
     <div className="App">
-      <Microphone/>
+
+      <TakeSnap/>
+      <ScreenSharing/>
     </div>
   );
 }
