@@ -1,13 +1,12 @@
 import './App.css';
 import TakeSnap from "./component/TakeSnap";
 import ScreenSharing from "./component/ScreenSharing";
+import PeerConnection from "./component/PeerConnection";
 
 function App() {
   return (
     <div className="App">
-
-      <TakeSnap/>
-      <ScreenSharing/>
+        <PeerConnection/>
     </div>
   );
 }
