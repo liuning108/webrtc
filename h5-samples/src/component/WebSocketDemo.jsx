@@ -8,7 +8,7 @@ export  default class WebSocketDemo extends React.Component {
     }
 
     componentDidMount() {
-        let url = 'ws://123.207.210.13/ws';
+        let url = 'wss://www.yunwu.red/ws';
         let  c = new WebSocket(url);
         let send = (data)=>{
             let v = (new Date())+ " ==> "+data+"\n";
