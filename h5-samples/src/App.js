@@ -1,15 +1,11 @@
 import './App.css';
-import TakeSnap from "./component/TakeSnap";
-import ScreenSharing from "./component/ScreenSharing";
-import PeerConnection from "./component/PeerConnection";
-import Microphone from "./component/Microphone";
-import WebSocketDemo from './component/WebSocketDemo'
+import './p2p.css'
+import P2PClient from "./p2p/P2PClient";
+
 function App() {
   return (
-    <div className="App">
-        <PeerConnection/>
-        <WebSocketDemo/>
-    </div>
+
+          <P2PClient/>
   );
 }
 
