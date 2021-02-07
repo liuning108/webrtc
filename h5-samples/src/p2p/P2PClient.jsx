@@ -45,7 +45,7 @@ class P2PClient extends React.Component {
 
     connectServer = () => {
         //WebSocket连接url
-        var p2pUrl = 'ws://' + window.location.hostname + '/ws';
+        var p2pUrl = 'wss://' + window.location.hostname + '/ws';
         console.log("信令服务器地址:" +p2pUrl);
         //初始化信令 传入url及名称
         this.p2pVideoCall = new P2PVideoCall(p2pUrl,this.state.userName,this.state.roomId);

@@ -38,8 +38,10 @@ export default class P2PVideoCall extends events.EventEmitter {
         navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia || navigator.msGetUserMedia;
 
         //ICE配置
-        configuration={"iceServers":[{"urls":["turn:stun.l.liuningff.xyz"],"username":"liuning","credential":"123456"}]}
+        configuration={"iceServers":[
+                {"urls":["turn:stun.l.yunwu.red"],"username":"liuning","credential":"123456"}
 
+            ],"iceTransportPolicy":"all","iceCandidatePoolSize":"0"}
 
         //初始化WebSocket
         this.socket = new WebSocket(this.p2pUrl);
