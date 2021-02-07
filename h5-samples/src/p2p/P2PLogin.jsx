@@ -14,9 +14,8 @@ class P2PLogin extends  React.Component {
                 <Form.Item name={"userName"}>
                     <Input placeholder={"请输入用户名"}/>
                 </Form.Item>
-                <Form.Item name={"roomId"}>
-                    <Input placeholder={"请输入房间名"}/>
-                </Form.Item>
+
+
                 <Form.Item>
                     <Button type="primary" htmlType="submit" className="login-join-button">
                         登录

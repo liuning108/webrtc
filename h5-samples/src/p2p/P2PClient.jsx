@@ -140,11 +140,11 @@ class P2PClient extends React.Component {
         }
     }
 
-    loginHandler = (userName,roomId) =>{
+    loginHandler = (userName) =>{
         this.setState({
             isLogin:true,
             userName:userName,
-            roomId:roomId,
+            roomId:"云雾",
         });
         this.connectServer();
     }
