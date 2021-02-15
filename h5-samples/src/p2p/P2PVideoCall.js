@@ -38,11 +38,8 @@ export default class P2PVideoCall extends events.EventEmitter {
         navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia || navigator.msGetUserMedia;
 
         //ICE配置
-        configuration={"iceServers":[
-                {"urls":["turn:stun.l.yunwu.red"],"username":"liuning","credential":"123456"}
-
-            ],"iceTransportPolicy":"all","iceCandidatePoolSize":"0"}
-
+        configuration={"iceServers":[{"urls":["stun:stun.l.yunwu.red:3478","stun:stun.xten.com"]},{"urls":["turn:stun.l.yunwu.red:3478?transport=udp","turn:stun.l.yunwu.red?transport=tcp"],"username":"liuning","credential":"123456"}],"iceTransportPolicy":"relay","iceCandidatePoolSize":"0","rtcpMuxPolicy":'require',"bundlePolicy":"max-bundle"}
+        console.log('configuration',configuration)
         //初始化WebSocket
         this.socket = new WebSocket(this.p2pUrl);
         //连接打开
@@ -260,11 +257,12 @@ export default class P2PVideoCall extends events.EventEmitter {
                         //自己Id
                         from:this.userId,
                         //Candidate数据
-                        candidate: {
-                            'sdpMLineIndex': event.candidate.sdpMLineIndex,
-                            'sdpMid': event.candidate.sdpMid,
-                            'candidate': event.candidate.candidate,
-                        },
+                        candidate:event.candidate,
+                        // candidate: {
+                        //     'sdpMLineIndex': event.candidate.sdpMLineIndex,
+                        //     'sdpMid': event.candidate.sdpMid,
+                        //     'candidate': event.candidate.candidate,
+                        // },
                         //会话Id
                         sessionId: this.sessionId,
                         //房间Id
