@@ -32,6 +32,8 @@ const reducer = (state: IThemeState, action: IThemeDispatch) => {
         case 'light':
             const newState = themes.light
             return newState
+        case 'dark':
+            return themes.dark
         default:
             return state
     }
