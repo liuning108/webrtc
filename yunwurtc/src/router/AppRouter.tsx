@@ -1,8 +1,8 @@
 import {FC} from "react";
 import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
-import Login from "../pages/Login";
+import Login from "../pages/login/Login";
 import AppThemeStoreDemo from "../demo/AppThemeStoreDemo";
-import NoMatch from "../pages/NoMatch";
+import NoMatch from "../pages/nomatch/NoMatch";
 import AuthRoute from "./AuthRoute";
 import GlobalStore from "../store/GlobalStore";
 
