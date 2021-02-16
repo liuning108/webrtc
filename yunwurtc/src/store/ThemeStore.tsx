@@ -1,4 +1,4 @@
-import {createContext, Dispatch, FC, useReducer} from "react";
+import {createContext, Dispatch, FC, useContext, useReducer} from "react";
 
 
 interface IThemeState {
@@ -38,7 +38,7 @@ const reducer = (state: IThemeState, action: IThemeDispatch) => {
             return state
     }
 }
-export const ThememContext = createContext<IThemeProvider>({
+const ThememContext = createContext<IThemeProvider>({
     state: themes.light, dispatch: () => {
     }
 })
@@ -51,5 +51,10 @@ const ThemeStore: FC = ({children}) => {
         </ThememContext.Provider>
     )
 }
-
+const useThemeHook = ()=>{
+    return useContext(ThememContext)
+}
+export  {
+    useThemeHook
+}
 export default ThemeStore
