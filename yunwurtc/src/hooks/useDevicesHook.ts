@@ -1,12 +1,15 @@
-import {useEffect, useState} from "react";
+import {Dispatch, useEffect, useState} from "react";
 import {getDevicesInfo, IDevicesInfo} from "../utils/device-testing";
 
-const useDevicesHook = (isCheckDevices:boolean)=>{
+const useDevicesHook = ():[ (IDevicesInfo|null),boolean,Dispatch<boolean>]=>{
     const [devicesInfo,setDevicesInfo] = useState<IDevicesInfo|null>(null)
-
+    const [isCheckDevices, setIsModalVisible] = useState(false);
     useEffect(()=>{
         getDevicesInfo().then((result)=>{
             setDevicesInfo(result)
+            if(!result.isHasALL){
+                setIsModalVisible(true)
+            }
         })
     },[])
     useEffect(()=>{
@@ -18,7 +21,7 @@ const useDevicesHook = (isCheckDevices:boolean)=>{
         console.log(isCheckDevices)
     },[isCheckDevices])
 
-    return devicesInfo
+    return [devicesInfo,isCheckDevices,setIsModalVisible]
 }
 
 export  default  useDevicesHook

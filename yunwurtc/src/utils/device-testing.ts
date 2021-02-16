@@ -13,6 +13,8 @@ export interface  IDevicesInfo  {
     //扬声器
     voices:MediaDeviceInfo[],
 
+    isHasALL:boolean
+
 }
 
 /**
@@ -25,10 +27,14 @@ const  getDevicesInfo = async ():Promise<IDevicesInfo>=>{
     console.log("摄像头",cameraList)
     console.log("麦克风",micList)
     console.log("扬声器",voiceList)
+    let isHasCameras = cameraList.length>0;
+    let isHasMics= micList.length>0;
+    let isHasVoices= voiceList.length>0
     return {
         cameras:cameraList,
         mics:micList,
-        voices:voiceList
+        voices:voiceList,
+        isHasALL: isHasCameras&&isHasMics&&isHasVoices
     }
 
 }

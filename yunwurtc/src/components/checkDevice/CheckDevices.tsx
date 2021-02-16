@@ -1,10 +1,11 @@
-import React, {FC, useState} from "react";
+import React, {FC} from "react";
 import {Button, Modal, Spin} from "antd";
 import useDevicesHook from "../../hooks/useDevicesHook";
 import DeviceInfoPanel from "./DeviceInfoPanel";
 const CheckDevices: FC = () => {
-    const [isCheckDevices, setIsModalVisible] = useState(false);
-    let devicesInfo = useDevicesHook(isCheckDevices)
+
+    let [devicesInfo,isCheckDevices,setIsModalVisible] = useDevicesHook()
+
     const showModal = () => {
         setIsModalVisible(true);
     };
