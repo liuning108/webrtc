@@ -15,7 +15,7 @@ const CheckDevices: FC = () => {
     };
     return (
         <>
-            <Button type="primary" onClick={showModal}>
+            <Button type="primary" onClick={showModal} className={'full-width'}>
                 设备检测
             </Button>
 
