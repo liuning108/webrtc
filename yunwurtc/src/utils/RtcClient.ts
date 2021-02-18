@@ -1,7 +1,13 @@
-import TRTC,{
-    Client,
+import TRTC, {
+    Callback,
+    Client, ClientEventMap, LocalStream, RemoteStream,
 } from 'trtc-js-sdk';
 
+export  interface IRtcClient {
+    join():void
+    on<K extends keyof ClientEventMap>(event: K, handler: Callback<ClientEventMap[K]>): void;
+
+}
 
 class RtcClient implements IRtcClient{
     private sdkAppId:number=0
@@ -16,8 +22,8 @@ class RtcClient implements IRtcClient{
     public isAudioMuted:boolean=false
     public isVideoMuted:boolean=false
 
-    private localStream:any = null
-    private remoteStreams:any=[]
+    private localStream:LocalStream|null = null
+    private remoteStreams:Array<RemoteStream> =[];
 
     private members = new Map();
     private volumeIntervalMap = new Map()
@@ -35,7 +41,8 @@ class RtcClient implements IRtcClient{
             mode:"rtc",
             sdkAppId:this.sdkAppId,
             userId:this.userId,
-            userSig:this.userSig
+            userSig:this.userSig,
+            useStringRoomId:true
         })
         console.log('client',this.client,{
             mode:"rtc",
@@ -43,48 +50,94 @@ class RtcClient implements IRtcClient{
             userId:this.userId,
             userSig:this.userSig
         })
-
-        this.handleEvents()
+        this.handleEvent()
     }
-
-    handleEvents() {
-        if (this.client === null) {
-            return;
-        }
-        this.client.on("error", err => {
-            window.location.reload()
+    handleEvent(){
+        if(this.client===null)return
+        let client =this.client
+        client.on('stream-added',evt=>{
+            const remoteStream = evt.stream;
+            const id = remoteStream.getId();
+            const userId = remoteStream.getUserId();
+            this.members.set(userId, remoteStream);
+            client.subscribe(remoteStream)
         })
 
-        this.client.on('client-banned', err => {
-            alert('您已被踢出房间');
-            window.location.reload();
-        })
-
-        this.client.on('peer-join', evt => {
-          console.log("-----------")
-        })
-
-        this.client.on('peer-leave', evt => {
-            alert('远端用户退房通知' + evt.userId);
+        client.on('stream-subscribed',evt=>{
+            const remoteStream = evt.stream;
+            this.remoteStreams.push(remoteStream)
+            remoteStream.play("remote-video")
         })
     }
 
-    async join() {
+
+    async join() :Promise<LocalStream|null> {
         if (this.client === null || this.isJoined) {
-            return;
+            return null;
         }
         try {
             await this.client.join({
-                roomId:1000,
+                roomId:this.roomId.toString(),
             })
+            this.isJoined= true
+
+            this.localStream = TRTC.createStream({
+                audio: true,
+                video: true,
+                userId: this.userId,
+                mirror: true
+            });
+            await this.localStream.initialize()
+            this.localStream.on("player-state-changed",evt=>{
+                console.log(`local stream ${evt.type} player is ${evt.state}`);
+            })
+            await  this.publish()
+
+
+
+
+
+
+
+
+
         }catch (e){
             alert('error')
             console.log(e)
         }
-        return true
+        return this.localStream
 
 
 
+    }
+
+    async publish() {
+        if(this.client===null || this.localStream===null){
+            return
+        }
+        if (!this.isJoined) {
+            console.warn('publish() - please join() firstly');
+            return;
+        }
+        if (this.isPublished) {
+            console.warn('duplicate RtcClient.publish() observed');
+            return;
+        }
+        try {
+            await this.client.publish(this.localStream);
+        } catch (e) {
+            console.error('failed to publish local stream ' + e);
+            this.isPublished = false;
+        }
+
+        this.isPublished = true;
+    }
+
+    on<K extends keyof ClientEventMap>(event: K, handler: Callback<ClientEventMap[K]>): void {
+        if(this.client===null){
+            return;
+        }
+        this.client.on(event,handler)
     }
 
 }

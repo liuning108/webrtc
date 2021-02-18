@@ -1,16 +1,19 @@
-import {FC, useEffect} from "react";
+import {FC} from "react";
 import {useGlobalCtxHook} from "../../store/GlobalStore";
-import RtcClient from "../../utils/RtcClient";
-
+import useRtcClientHooks from "../../hooks/useRtcClientHooks";
+import LocalVideoView from "./LocalVideoView";
+import RemoteVideoView from "./RemoteVideoView";
 const  Room :FC = ()=>{
     const {state} =useGlobalCtxHook();
     const {config} = state.user  as IUserInfo
-    console.log('curUser',config)
-    let client = new RtcClient(config)
-    client.join()
+    let rtcResult =useRtcClientHooks(config)
+
     return (
         <div>
             ROOM
+            {rtcResult}
+            <LocalVideoView/>
+            <RemoteVideoView/>
         </div>
     )
 }

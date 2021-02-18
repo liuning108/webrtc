@@ -1,6 +1,8 @@
 /// <reference types="react-scripts" />
 
 
+
+
 interface IAction {
     type:string
     data?:any
@@ -16,8 +18,4 @@ interface IRtcCLientOption {
 }
 interface IUserInfo {
     config:IRtcCLientOption
-}
-
-interface IRtcClient {
-    join()
 }

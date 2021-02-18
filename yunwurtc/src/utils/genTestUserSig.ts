@@ -1,4 +1,4 @@
-import LibGenerateTestUserSig from './lib-generate-test-usersig.min'
+
 /* eslint-disable require-jsdoc */
 /*
  * Module:   GenerateTestUserSig
@@ -17,6 +17,7 @@ import LibGenerateTestUserSig from './lib-generate-test-usersig.min'
  *
  * Reference：https://cloud.tencent.com/document/product/647/17275#Server
  */
+
 const genTestUserSig =(userID:string)=> {
     /**
      * 腾讯云 SDKAppId，需要替换为您自己账号下的 SDKAppId。
@@ -53,6 +54,7 @@ const genTestUserSig =(userID:string)=> {
             '\r\n\r\nPlease configure your SDKAPPID/SECRETKEY in js/debug/GenerateTestUserSig.js'
         );
     }
+    // @ts-ignore
     const generator = new LibGenerateTestUserSig(SDKAPPID, SECRETKEY, EXPIRETIME);
     const userSig = generator.genTestUserSig(userID);
     return {
