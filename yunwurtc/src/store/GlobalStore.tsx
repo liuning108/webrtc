@@ -1,7 +1,9 @@
 import {createContext, Dispatch, FC, useContext, useReducer} from "react";
+import genTestUserSig from '../utils/genTestUserSig'
+import RtcClient from "../utils/RtcClient";
 
 interface  IGlobalState{
-    user: any
+    user: IUserInfo|null
 }
 interface IGlobalProvider {
     state:IGlobalState,
@@ -16,7 +18,6 @@ const initState:IGlobalState={
 const reducer = (state:IGlobalState,action:IAction)=>{
     switch (action.type){
         case 'login':
-          console.log('auth loing',action)
           return  {
               user:action.data
           }
@@ -36,16 +37,28 @@ const GlobalStore:FC =({children})=>{
 }
 const useGlobalCtxHook=()=>{
     let {state,dispatch} = useContext(GlobalContext)
-    const login =async ()=>{
+    const login =async (values:any)=>{
+        let {username,roomId} = values
+
+
        return  new Promise((resolve)=>{
            setTimeout(()=>{
+               let {sdkAppId,userSig} =genTestUserSig(username)
+               let config:IRtcCLientOption ={
+                   userSig:userSig,
+                   userId:username,
+                   sdkAppId,
+                   roomId
+               }
+
                if (dispatch) {
-                   dispatch({type: 'login', data: {name: 'lining'}})
+                   dispatch({type: 'login', data: {config}})
                }
                resolve(true)
            },200)
         })
     }
+
     return {
         state,
         login

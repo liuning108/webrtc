@@ -3,21 +3,19 @@ import CheckDevices from "../../components/checkDevice/CheckDevices";
 import {useGlobalCtxHook} from "../../store/GlobalStore";
 import {useHistory, useLocation} from "react-router-dom";
 import {Button, Col, Form, Input, Row} from 'antd'
-
 const LoLoginForm: FC = () => {
     const globalCtx = useGlobalCtxHook();
     const history = useHistory();
     const location = useLocation<any>();
-    let {from} = location.state || {from: {pathname: "/"}};
-    let login = async () => {
-        await globalCtx.login()
+    let {from} = location.state || {from: {pathname: "/room"}};
+    let login = async (values:any) => {
+        await globalCtx.login(values)
         history.replace(from);
     };
 
-
-
     const onFinish = (values: any) => {
-        console.log('Success:', values);
+       let {username,roomId}  = values
+        login(values)
     };
 
     const onFinishFailed = (errorInfo: any) => {

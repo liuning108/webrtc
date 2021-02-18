@@ -5,6 +5,7 @@ import AppThemeStoreDemo from "../demo/AppThemeStoreDemo";
 import NoMatch from "../pages/nomatch/NoMatch";
 import AuthRoute from "./AuthRoute";
 import GlobalStore from "../store/GlobalStore";
+import Room from "../pages/room/Room";
 
 const AppRouter: FC = () => {
     return (
@@ -20,6 +21,9 @@ const AppRouter: FC = () => {
                     }}/>
                     <Route path="/login" component={Login}/>
                     <Route path="/demo" component={AppThemeStoreDemo}  />
+                    <AuthRoute path={"/room"}>
+                        <Room/>
+                    </AuthRoute>
                     <Route path="*">
                         <NoMatch/>
                     </Route>
