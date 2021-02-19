@@ -41,9 +41,9 @@ const useGlobalCtxHook=()=>{
         let {username,roomId} = values
 
 
-       return  new Promise((resolve)=>{
-           setTimeout(()=>{
-               let {sdkAppId,userSig} =genTestUserSig(username)
+       return  new Promise( (resolve)=>{
+           setTimeout(async ()=>{
+               let {sdkAppId,userSig} =await genTestUserSig(username)
                let config:IRtcCLientOption ={
                    userSig:userSig,
                    userId:username,
