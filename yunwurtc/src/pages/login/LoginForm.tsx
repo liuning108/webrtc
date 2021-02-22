@@ -7,15 +7,18 @@ const LoLoginForm: FC = () => {
     const globalCtx = useGlobalCtxHook();
     const history = useHistory();
     const location = useLocation<any>();
-    let {from} = location.state || {from: {pathname: "/room"}};
+    // let {from} = location.state || {from: {pathname: "/userlist"}};
+     let {from} = {from: {pathname: "/userlist"}};
+
     let login = async (values:any) => {
         await globalCtx.login(values)
         history.replace(from);
     };
 
     const onFinish = (values: any) => {
-       let {username,roomId}  = values
-        login(values)
+       let {username}  = values
+        let roomId =parseInt(""+(Math.random()*100000));
+        login({username:username,roomId})
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -42,14 +45,14 @@ const LoLoginForm: FC = () => {
                 </Form.Item>
 
 
-                <Form.Item
+                {/*<Form.Item*/}
 
-                    name="roomId"
-                    rules={[{required: true, message: '请输入房间号'}]}
-                    initialValue={1000}
-                >
-                    <Input placeholder={"请输入房间号"}/>
-                </Form.Item>
+                {/*    name="roomId"*/}
+                {/*    rules={[{required: true, message: '请输入房间号'}]}*/}
+                {/*    initialValue={1000}*/}
+                {/*>*/}
+                {/*    <Input placeholder={"请输入房间号"}/>*/}
+                {/*</Form.Item>*/}
 
 
                 <Form.Item >

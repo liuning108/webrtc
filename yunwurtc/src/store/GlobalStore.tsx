@@ -1,9 +1,11 @@
-import {createContext, Dispatch, FC, useContext, useReducer} from "react";
+import {createContext, Dispatch, FC, useContext, useReducer, useState} from "react";
 import genTestUserSig from '../utils/genTestUserSig'
 import RtcClient from "../utils/RtcClient";
+import WebClient,{IWebClient} from "../utils/WebCient";
 
 interface  IGlobalState{
-    user: IUserInfo|null
+    user: IUserInfo|null,
+    webClient:IWebClient|null,
 }
 interface IGlobalProvider {
     state:IGlobalState,
@@ -11,7 +13,8 @@ interface IGlobalProvider {
 }
 
 const initState:IGlobalState={
-   user:null
+   user:null,
+    webClient:null
 }
 
 
@@ -19,7 +22,8 @@ const reducer = (state:IGlobalState,action:IAction)=>{
     switch (action.type){
         case 'login':
           return  {
-              user:action.data
+              user:{config:action.data['user']},
+              webClient:action.data['webClient']
           }
         default:
             return state
@@ -39,8 +43,6 @@ const useGlobalCtxHook=()=>{
     let {state,dispatch} = useContext(GlobalContext)
     const login =async (values:any)=>{
         let {username,roomId} = values
-
-
        return  new Promise( (resolve)=>{
            setTimeout(async ()=>{
                let {sdkAppId,userSig} =await genTestUserSig(username)
@@ -51,8 +53,10 @@ const useGlobalCtxHook=()=>{
                    roomId
                }
 
+               let client = new WebClient(config)
+
                if (dispatch) {
-                   dispatch({type: 'login', data: {config}})
+                   dispatch({type: 'login', data: {'user':config,'webClient':client}})
                }
                resolve(true)
            },200)
@@ -61,7 +65,8 @@ const useGlobalCtxHook=()=>{
 
     return {
         state,
-        login
+        login,
+
     }
 }
 
